@@ -3,6 +3,36 @@
     include "./header_footer/header.php";
 
 ?>
+<?php
+
+session_start();
+include "./database/db_connect.php";
+
+if ( isset($_SESSION["user_id"]) ) {
+
+  // $mysqli = require __DIR__ . "/dbConfig.php";
+
+  $sql = "SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}";
+
+  $result = $conn->query($sql);
+
+  $user = $result->fetch_assoc();
+
+}
+
+?>
+
+<?php
+// require "../database/db_connect.php";
+// session_start();
+
+$user_id = $_SESSION["user_id"];
+
+$sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id'";
+
+$result = $conn->query($sql);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,72 +43,56 @@
 </head>
 <body>
     
+<?php if( isset($user) ): ?>
 <div class="m-9">
   <div class="px-4 sm:px-0">
-    <h3 class="text-base font-semibold leading-7 text-gray-900">Applicant Information</h3>
-    <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+    <h3 class="text-base font-semibold leading-7 text-gray-900">Reservation Details</h3>
   </div>
-  <div class="mt-6 border-t border-gray-100">
-    <dl class="divide-y divide-gray-100">
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Full name</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+<?php 
+if ($result->num_rows > 0) {
+  // Output data of each row
+  while($row = $result->fetch_assoc()) {
+  echo "<div class='inline-flex mr-8 mt-6 max-w-sm rounded overflow-hidden shadow-lg  border-t border-gray-100'>
+    <dl class='divide-y px-6 py-4 divide-gray-100'>
+      <div class='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+        <dt class='text-sm font-medium leading-6 text-gray-900'>Fullname</dt>
+        <dd class='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>".$row["fullname"]."</dd> <!-- Name Field -->
       </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Application for</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Backend Developer</dd>
+      <div class='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+        <dt class='text-sm font-medium leading-6 text-gray-900'>Number of persons:</dt>
+        <dd class='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>".$row["no_of_persons"]."</dd> <!-- Number of persons -->
       </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
+      <div class='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+        <dt class='text-sm font-medium leading-6 text-gray-900'>Date:</dt>
+        <dd class='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>".$row["date_of_reservation"]."</dd> <!-- Date filed -->
       </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Salary expectation</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">About</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
-        <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-          <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
-            <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-              <div class="flex w-0 flex-1 items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd" />
-                </svg>
-                <div class="ml-4 flex min-w-0 flex-1 gap-2">
-                  <span class="truncate font-medium">resume_back_end_developer.pdf</span>
-                  <span class="flex-shrink-0 text-gray-400">2.4mb</span>
-                </div>
-              </div>
-              <div class="ml-4 flex-shrink-0">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Download</a>
-              </div>
-            </li>
-            <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-              <div class="flex w-0 flex-1 items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd" />
-                </svg>
-                <div class="ml-4 flex min-w-0 flex-1 gap-2">
-                  <span class="truncate font-medium">coverletter_back_end_developer.pdf</span>
-                  <span class="flex-shrink-0 text-gray-400">4.5mb</span>
-                </div>
-              </div>
-              <div class="ml-4 flex-shrink-0">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Download</a>
-              </div>
-            </li>
-          </ul>
-        </dd>
+      <div class='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+        <dt class='text-sm font-medium leading-6 text-gray-900'>Time:</dt>
+        <dd class='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>". $row["time_of_reservation_start"]. " - " . $row["time_of_reservation_end"]."</dd> <!-- Time -->
       </div>
     </dl>
-  </div>
-</div>
+  </div>";
+  }
+} else {
+    echo "0 results";
+}
 
+$conn->close();
+  ?>
+</div>
+<?php else: ?>
+  <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+  <div class="text-center">
+    <p class="text-4xl font-semibold text-indigo-600">Nothing to show</p>
+    <p class="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">Please login first!</p>
+    <!-- <p class="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p> -->
+    <div class="mt-10 flex items-center justify-center gap-x-6">
+      <a href="user_login.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</a>
+      <!-- <a href="#" class="text-sm font-semibold text-gray-900">Contact support <span aria-hidden="true">&rarr;</span></a> -->
+    </div>
+  </div>
+</main>
+<?php endif; ?>
 </body>
 </html>
 
