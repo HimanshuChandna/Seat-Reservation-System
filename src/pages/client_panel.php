@@ -5,29 +5,27 @@
 ?>
 <?php
 
-session_start();
-include "./database/db_connect.php";
+// session_start();
+// include "./database/db_connect.php";
 
-if ( isset($_SESSION["res_id"]) ) {
+// if ( isset($_SESSION["res_id"]) ) {
 
-  // $mysqli = require __DIR__ . "/dbConfig.php";
+//   // $mysqli = require __DIR__ . "/dbConfig.php";
 
-  $sql = "SELECT * FROM RESTAURANT WHERE res_id = {$_SESSION['res_id']}";
+//   $sql = "SELECT * FROM RESTAURANT WHERE res_id = {$_SESSION['res_id']}";
 
-  $result = $conn->query($sql);
+//   $result = $conn->query($sql);
 
-  $user = $result->fetch_assoc();
+//   $user = $result->fetch_assoc();
 
-}
+// }
 
 ?>
 <?php
 // require "../database/db_connect.php";
 // session_start();
 
-$user_id = $_SESSION["user_id"];
-
-$sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id'";
+$sql = "SELECT * FROM USER_RESERVATIONS";
 
 $result = $conn->query($sql);
 

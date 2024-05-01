@@ -1,3 +1,39 @@
+<?php
+
+session_start();
+include "./database/db_connect.php";
+
+if ( isset($_SESSION["user_id"]) ) {
+
+  // $mysqli = require __DIR__ . "/dbConfig.php";
+
+  $sql = "SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}";
+
+  $result = $conn->query($sql);
+
+  $user = $result->fetch_assoc();
+
+}
+?>
+<?php
+
+// session_start();
+include "./database/db_connect.php";
+
+if ( isset($_SESSION["res_id"]) ) {
+
+  // $mysqli = require __DIR__ . "/dbConfig.php";
+
+  $sql = "SELECT * FROM RESTAURANT WHERE res_id = {$_SESSION['res_id']}";
+
+  $result = $conn->query($sql);
+
+  $user2 = $result->fetch_assoc();
+
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,13 +56,39 @@
       <a class="mr-5 hover:text-gray-900" href="index.php">Home</a>
       <a class="mr-5 hover:text-gray-900" href="seat_reserve.php">Seat Reservation</a>
       <a class="mr-5 hover:text-gray-900" href="user_reservations.php">Your Reservations</a>
+      <?php  
+        
+        if ( isset($_SESSION["res_id"]) ) {
+
+        // $mysqli = require __DIR__ . "/dbConfig.php";
+
+        $sql = "SELECT * FROM RESTAURANT WHERE res_id = {$_SESSION['res_id']}";
+
+        $result = $conn->query($sql);
+
+        $res_user = $result->fetch_assoc();
+        }
+       if( isset($res_user) ):
+        ?>
+      <a class="mr-5 hover:text-gray-900" href="./authentication/client_logout.php">Restaurant Logout</a>
+      <a class="mr-5 hover:text-gray-900" href="client_panel.php">Restaurant Panel</a>
+        <?php elseif( !isset($res_user) ): ?>
       <a class="mr-5 hover:text-gray-900" href="client_login.php">Restaurant Login</a>
+        <?php else: endif; ?>
     </nav>
+    <?php if( isset($user) ): ?>
+    <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" ><a href="./authentication/user_logout.php">Logout</a>
+      <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg> -->
+    </button>
+    <?php else: ?>
     <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" ><a href="user_signup.php">Signup / Login</a>
       <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
         <path d="M5 12h14M12 5l7 7-7 7"></path>
       </svg> -->
     </button>
+    <?php endif; ?>
   </div>
 </header>
 

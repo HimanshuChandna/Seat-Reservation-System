@@ -10,11 +10,11 @@
         $date = $_POST["date"];
         $time_start = $_POST["start_time"];
         $time_end = $_POST["end_time"];
-
+        $timestamp = date('Y/m/d H:i:s', time());
         $user_id = $_SESSION["user_id"];
 
         $sql = "INSERT INTO USER_RESERVATIONS VALUES('$user_id','$fullname',
-        '$mobile_number','$email','$no_of_persons','$date','$time_start','$time_end','$user_id')";
+        '$mobile_number','$email','$no_of_persons','$date','$time_start','$time_end','$user_id','$timestamp')";
 
         if($conn->query($sql) === TRUE){
             echo "Booking Created Successfully!";
@@ -24,13 +24,14 @@
         }
 
     };
-
-    var_dump($fullname);
-    var_dump($mobile_number);
-    var_dump($email);
-    var_dump($no_of_persons);
-    var_dump($date);
-    var_dump($time_start);
-    var_dump($time_end);
+    
+    // 2024-05-01 23:48:31
+    // var_dump($fullname);
+    // var_dump($mobile_number);
+    // var_dump($email);
+    // var_dump($no_of_persons);
+    // var_dump($date);
+    // var_dump($time_start);
+    // var_dump($time_end);
 
 ?>

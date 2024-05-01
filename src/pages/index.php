@@ -3,6 +3,16 @@
     include "./header_footer/header.php";
 
 ?>
+<?php
+
+  $sql = "SELECT count(user_id) from users";
+  $user_numbers = $conn->query($sql);
+  if ($user_numbers->num_rows > 0) {
+    // Output data of each row
+    while($row = $user_numbers->fetch_assoc()) {
+    
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +65,13 @@
             <circle cx="9" cy="7" r="4"></circle>
             <path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"></path>
           </svg>
-          <h2 class="title-font font-medium text-3xl text-gray-900">1.3K</h2>
+          <h2 class="title-font font-medium text-3xl text-gray-900"><?php
+          echo $row['count(user_id)'];
+          }
+  }
+  else{
+    echo "0 results";
+  }?></h2>
           <p class="leading-relaxed">Users</p>
         </div>
       </div>
@@ -65,7 +81,25 @@
             <path d="M3 18v-6a9 9 0 0118 0v6"></path>
             <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"></path>
           </svg>
-          <h2 class="title-font font-medium text-3xl text-gray-900">74</h2>
+          <h2 class="title-font font-medium text-3xl text-gray-900">
+          
+          <?php
+
+            $sql = "SELECT count(*) from user_reservations;";
+            $reservation_numbers = $conn->query($sql);
+            if ($reservation_numbers->num_rows > 0) {
+              // Output data of each row
+              while($row = $reservation_numbers->fetch_assoc()) {
+                echo $row['count(*)'];
+              }
+            }
+            else{
+              "0 results";
+            }
+
+          ?>
+
+          </h2>
           <p class="leading-relaxed">Files</p>
         </div>
       </div>

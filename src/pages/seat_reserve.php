@@ -5,7 +5,7 @@
 ?>
 <?php
 
-session_start();
+// session_start();
 include "./database/db_connect.php";
 
 if ( isset($_SESSION["user_id"]) ) {

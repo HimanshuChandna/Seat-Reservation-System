@@ -5,7 +5,7 @@
 ?>
 <?php
 
-session_start();
+// session_start();
 include "./database/db_connect.php";
 
 if ( isset($_SESSION["user_id"]) ) {
@@ -17,21 +17,13 @@ if ( isset($_SESSION["user_id"]) ) {
   $result = $conn->query($sql);
 
   $user = $result->fetch_assoc();
+  $user_id = $_SESSION["user_id"];
 
+  // $sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id'";
+  $sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id' ORDER BY TIME_STAMP asc;";
+
+  $result = $conn->query($sql);
 }
-
-?>
-
-<?php
-// require "../database/db_connect.php";
-// session_start();
-
-$user_id = $_SESSION["user_id"];
-
-$sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id'";
-
-$result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
