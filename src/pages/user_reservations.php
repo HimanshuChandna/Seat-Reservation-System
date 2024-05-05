@@ -5,12 +5,9 @@
 ?>
 <?php
 
-// session_start();
 include "./database/db_connect.php";
 
 if ( isset($_SESSION["user_id"]) ) {
-
-  // $mysqli = require __DIR__ . "/dbConfig.php";
 
   $sql = "SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}";
 
@@ -18,8 +15,6 @@ if ( isset($_SESSION["user_id"]) ) {
 
   $user = $result->fetch_assoc();
   $user_id = $_SESSION["user_id"];
-
-  // $sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id'";
   $sql = "SELECT * FROM USER_RESERVATIONS WHERE user_id = '$user_id' ORDER BY TIME_STAMP asc;";
 
   $result = $conn->query($sql);
@@ -77,10 +72,8 @@ $conn->close();
   <div class="text-center">
     <p class="text-4xl font-semibold text-indigo-600">Nothing to show</p>
     <p class="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">Please login first!</p>
-    <!-- <p class="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p> -->
     <div class="mt-10 flex items-center justify-center gap-x-6">
-      <a href="user_login.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</a>
-      <!-- <a href="#" class="text-sm font-semibold text-gray-900">Contact support <span aria-hidden="true">&rarr;</span></a> -->
+      <a href="user_login.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</a> 
     </div>
   </div>
 </main>

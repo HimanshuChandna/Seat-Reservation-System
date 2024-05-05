@@ -24,14 +24,5 @@
         }
 
     };
-    
-    // 2024-05-01 23:48:31
-    // var_dump($fullname);
-    // var_dump($mobile_number);
-    // var_dump($email);
-    // var_dump($no_of_persons);
-    // var_dump($date);
-    // var_dump($time_start);
-    // var_dump($time_end);
 
 ?>

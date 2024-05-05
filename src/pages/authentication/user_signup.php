@@ -14,12 +14,9 @@
 
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-    // $mysqli = require __DIR__. "../database/db_connect.php";
-
     $sql = "INSERT INTO USERS (email, password) VALUES('$email', '$password_hash')";
 
     if ($conn->query($sql) == TRUE) {
-        // echo "Successfully created the record!";
         header("Location: ../authentication/user_signup_success.php");
         exit;
     }

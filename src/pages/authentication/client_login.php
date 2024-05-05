@@ -28,7 +28,8 @@
                 // exit;
            }
            else{
-                echo "Invalid Credentials!";
+            echo"<script>alert('Invalid Email or Password!')</script>";
+            echo"<script>window.location.href='../client_login.php'</script>";
            }
 
         }

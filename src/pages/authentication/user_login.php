@@ -12,8 +12,6 @@
 
         $user = $result->fetch_assoc();
 
-        // var_dump($user);
-
         if($user) {
 
            if( password_verify($_POST["password"], $user["password"])) {
@@ -24,8 +22,11 @@
 
                 $_SESSION["user_id"] = $user["user_id"];
                 header("location: ../seat_reserve.php");
-                // die("Login Successful!");
-                // exit;
+
+           }
+           else{
+            echo"<script>alert('Invalid Email or Password!')</script>";
+            echo"<script>window.location.href='../user_login.php'</script>";
            }
 
         }

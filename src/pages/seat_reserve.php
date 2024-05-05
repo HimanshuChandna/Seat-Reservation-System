@@ -5,12 +5,9 @@
 ?>
 <?php
 
-// session_start();
 include "./database/db_connect.php";
 
 if ( isset($_SESSION["user_id"]) ) {
-
-  // $mysqli = require __DIR__ . "/dbConfig.php";
 
   $sql = "SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}";
 
@@ -19,6 +16,24 @@ if ( isset($_SESSION["user_id"]) ) {
   $user = $result->fetch_assoc();
 
 }
+
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+
+  $fullname = $_POST["fullname"];
+  $mobile_number = $_POST["mobile-number"];
+  $email = $_POST["email"];
+  $no_of_persons = $_POST["persons"];
+  $date = $_POST["date"];
+  $time_start = $_POST["start_time"];
+  $time_end = $_POST["end_time"];
+  $timestamp = date('Y/m/d H:i:s', time());
+  $user_id = $_SESSION["user_id"];
+
+  $sql = "INSERT INTO USER_RESERVATIONS VALUES('$user_id','$fullname',
+  '$mobile_number','$email','$no_of_persons','$date','$time_start','$time_end','$user_id','$timestamp')";
+
+  if($conn->query($sql) === TRUE){
+      
 
 ?>
 
@@ -30,15 +45,20 @@ if ( isset($_SESSION["user_id"]) ) {
     <title>Document</title>
 </head>
 <body>
+<?php echo "<div class='ml-7'><p><b>Booking Created Successfully!</b></p></div>";
+    }
+    else{
+        echo "Error".$sql."<br>".$conn->error;
+    }
 
+  };
+?>
 <?php if( isset($user) ): ?>
-<form class="m-9" action="./database/reservation_data.php" method="POST">
+<form class="m-9" action="" method="POST">
   <div class="space-y-12">
 
     <div class="border-b border-gray-900/10 pb-12">
       <h2 class="text-base font-semibold leading-7 text-gray-900">Reservation Information</h2>
-      <!-- <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p> -->
-
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-3">
           <label for="fullname" class="block text-sm font-medium leading-6 text-gray-900">Fullname</label>
@@ -95,6 +115,8 @@ if ( isset($_SESSION["user_id"]) ) {
       </div>
     </div>
   </div>
+  
+
 
   <div class="mt-6 flex items-center justify-end gap-x-6">
     <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit Request</button>  
@@ -106,10 +128,8 @@ if ( isset($_SESSION["user_id"]) ) {
   <div class="text-center">
     <p class="text-4xl font-semibold text-indigo-600">Nothing to show</p>
     <p class="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">Please login first!</p>
-    <!-- <p class="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p> -->
     <div class="mt-10 flex items-center justify-center gap-x-6">
       <a href="user_login.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</a>
-      <!-- <a href="#" class="text-sm font-semibold text-gray-900">Contact support <span aria-hidden="true">&rarr;</span></a> -->
     </div>
   </div>
 </main>
